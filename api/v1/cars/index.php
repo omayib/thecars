@@ -5,12 +5,14 @@ $car1->title = "2019 Suzuki Ertiga";
 $car1->gear = "manual";
 $car1->price = "124 Juta";
 $car1->location = "Bantul";
+$car1->image="";
 
 $car2->id=1232;
 $car2->title = "Toyota Avanza 2019";
 $car2->gear = "automatic";
 $car2->price = "224 Juta";
 $car2->location = "Sleman";
+$car2->image="";
 
 $cars = array($car1,$car2);
 
@@ -33,6 +35,15 @@ if($_GET["id"]){
 		$newCar->gear = $_POST["gear"];
 		$newCar->price = $_POST["price"];
 		$newCar->location = $_POST["location"];
+		$newCar->image = "";
+
+		if(isset(($_FILES['image']))){
+			$file_tmp =$_FILES['image']['tmp_name'];
+			$file_name = $_FILES['image']['name'];
+			$moved = move_uploaded_file($file_tmp,"../../../images/".$file_name);
+			$newCar->image = $_SERVER['HTTP_HOST']."/images/".$file_name;
+		}
+
 		array_push($cars,$newCar);
 		$carsObject = json_encode($cars);
 		echo $carsObject;
